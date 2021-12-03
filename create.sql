@@ -1,6 +1,7 @@
 USE master
 GO
 
+-- Check if database 'UniDloX' exist.
 IF NOT EXISTS (
 SELECT [name]
 FROM sys.databases
@@ -12,6 +13,7 @@ GO
 USE UniDloX
 GO
 
+-- Drop table if exists
 IF OBJECT_ID('[MsCloth]', 'U') IS NOT NULL
 DROP TABLE [MsCloth]
 GO

@@ -99,3 +99,6 @@ CREATE TABLE [SalesTransactionDetail]
     [ClothID] char(5) FOREIGN KEY REFERENCES MsCloth(ClothID) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL,
     [Quantity] int
 );
+
+USE master
+GO

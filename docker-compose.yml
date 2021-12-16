@@ -1,7 +1,7 @@
 version: "3.2"
 services:
   sql-server-db:
-    container_name: mssql
+    container_name: mssql-unidlox
     image: mcr.microsoft.com/mssql/server:2019-latest
     ports:
       - "1433:1433"
@@ -9,6 +9,6 @@ services:
       - MSSQL_SA_PASSWORD=<SecurePassword@99>
       - ACCEPT_EULA=Y
     volumes:
-      - sqlvolume:/var/opt/mssql
+      - sql-unidlox-volume:/var/opt/mssql
 volumes:
-  sqlvolume:
+  sql-unidlox-volume:

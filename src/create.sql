@@ -1,3 +1,6 @@
+-- Answer to question B
+
+
 USE master
 GO
 

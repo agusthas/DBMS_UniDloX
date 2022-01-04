@@ -1,4 +1,5 @@
 USE UniDloX
+
 Select * from PurchaseTransactionHeader
 Select * from PurchaseTransactionDetail
 Select * from MsMaterial
@@ -23,7 +24,7 @@ from SalesTransactionHeader as a
 Join MsCustomer as b on a.CustomerID = b.CustomerID
 Join SalesTransactionDetail as c on a.SalesID = c.SalesID
 Join MsCloth as d on c.ClothID = d.ClothID
-Where b.CustomerName LIKE '%m%'
+Where CHARIndex('m' COLLATE Latin1_General_CS_AI, b.CustomerName) > 0
 Group by a.SalesID, b.CustomerName
 Having SUM(d.ClothPrice * c.Quantity) > 2000000
 Order by a.SalesID asc
@@ -73,9 +74,16 @@ where DATENAME(WEEKDAY, a.PurchaseDate) = 'Friday' OR DATENAME(WEEKDAY, a.Purcha
 OR DATENAME(WEEKDAY, a.PurchaseDate) = 'Sunday' AND c.Quantity > (Select AVG(Quantity) from PurchaseTransactionDetail)
 
 --8
-Select a. 
+Select CASE WHEN b.CustomerGender LIKE 'Male' THEN Concat('Mr. ', b.CustomerName) ELSE Concat('Mrs. ', b.CustomerName) END as 'CustomerName', 
+b.CustomerGender, b.CustomerPhone, b.CustomerAddress, b.CustomerDOB, SUM(c.Quantity)
 from SalesTransactionHeader as a
 join MsCustomer as b on a.CustomerID = b.CustomerID
+join SalesTransactionDetail as c on a.SalesID = c.SalesID
+Group by b.CustomerName, b.CustomerGender, b.CustomerPhone, b.CustomerAddress, b.CustomerDOB  
+Having SUM(c.Quantity) > (Select SUM(b.Quantity) from SalesTransactionHeader as a 
+						join SalesTransactionDetail as b on a.SalesID = b.SalesID
+						join MsCustomer as c on a.CustomerID = c.CustomerID
+						where CHARINDEX('j' COLLATE Latin1_General_CS_AI, c.CustomerName ) > 0)
 
 --9
 Create View ViewCustomerTransaction as
